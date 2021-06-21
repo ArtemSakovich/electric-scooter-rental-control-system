@@ -1,0 +1,122 @@
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+.card-container.card {
+  max-width: 350px !important;
+  padding: 40px 40px;
+}
+
+.card {
+  background-color: #f7f7f7;
+  padding: 20px 25px 30px;
+  margin: 0 auto 25px;
+  margin-top: 50px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.profile-img-card {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.btn {
+  margin-top: 20px;
+}
+
+ol {
+  counter-reset: li; /* Initiate a counter */
+  list-style: none; /* Remove default numbering */
+  *list-style: decimal; /* Keep using default numbering for IE6/7 */
+  font: 15px 'trebuchet MS', 'lucida sans';
+  padding: 0;
+  margin-bottom: 4em;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+
+ol ol {
+  margin: 0 0 0 2em; /* Add some left margin for inner lists */
+}
+
+.rounded-list p{
+  position: relative;
+  display: block;
+  padding: .4em .4em .4em 2em;
+  *padding: .4em;
+  margin: .5em 0;
+  background: #ddd;
+  color: #444;
+  text-decoration: none;
+  border-radius: .3em;
+  transition: all .3s ease-out;
+}
+
+.rounded-list p:before{
+  content: close-quote;
+  position: absolute;
+  left: -1.3em;
+  top: 50%;
+  margin-top: -1.3em;
+  background: #87ceeb;
+  height: 2em;
+  width: 2em;
+  line-height: 2em;
+  border: .3em solid #fff;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 2em;
+  transition: all .3s ease-out;
+}
+
+.editButton {
+  margin-right: 15px;
+}
+
+.updateButton {
+  background-color: forestgreen;
+  margin-right: 15px;
+}
+
+.updateButton:hover {
+  background-color: darkgreen;
+  margin-right: 15px;
+}
+
+.deleteButton {
+  background-color: indianred;
+  margin-right: 15px;
+}
+
+.deleteButton:hover {
+  background-color: darkred;
+  margin-right: 15px;
+}
+
+.errorDiv {
+  width: 350px;
+  height: 50px;
+  margin-top: 15px;
+  border: 3px solid darkred;
+  border-radius: 5px;
+  background-color: indianred;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+select {
+  border: 2px solid lightslategray;
+  border-radius: 3px;
+}
