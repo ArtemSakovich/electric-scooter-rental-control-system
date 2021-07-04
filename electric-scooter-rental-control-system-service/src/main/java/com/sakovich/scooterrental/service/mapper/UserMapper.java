@@ -1,36 +1,29 @@
 package com.sakovich.scooterrental.service.mapper;
 
 import com.sakovich.scooterrental.api.mapper.IUserMapper;
-import com.sakovich.scooterrental.dao.IRoleDao;
-import com.sakovich.scooterrental.model.Subscription;
 import com.sakovich.scooterrental.model.User;
-import com.sakovich.scooterrental.model.dto.SubscriptionDto;
 import com.sakovich.scooterrental.model.dto.UserDto;
+import com.sakovich.scooterrental.repository.IRoleRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Objects;
 
 @Component
+@RequiredArgsConstructor
 public class UserMapper implements IUserMapper {
 
     private final ModelMapper mapper;
-    private final IRoleDao roleDao;
-
-    @Autowired
-    public UserMapper(ModelMapper mapper, IRoleDao roleDao) {
-        this.mapper = mapper;
-        this.roleDao = roleDao;
-    }
+    private final IRoleRepository roleDao;
 
     @PostConstruct
     public void setupMapper() {
         TypeMap<User, UserDto> typeMap = mapper.getTypeMap(User.class, UserDto.class);
-        if (typeMap == null) { // if not  already added
+        if (typeMap == null) {
             mapper.createTypeMap(User.class, UserDto.class)
                     .addMappings(m -> m.skip(UserDto::setRoleId)).setPostConverter(toDtoConverter());
             mapper.createTypeMap(UserDto.class, User.class)

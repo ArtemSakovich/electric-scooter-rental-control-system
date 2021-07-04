@@ -3,12 +3,11 @@ package com.sakovich.scooterrental.service;
 import com.sakovich.scooterrental.api.exception.OperationCancelledException;
 import com.sakovich.scooterrental.api.mapper.IRoleMapper;
 import com.sakovich.scooterrental.api.service.IRoleService;
-import com.sakovich.scooterrental.dao.IRoleDao;
 import com.sakovich.scooterrental.model.Role;
 import com.sakovich.scooterrental.model.dto.RoleDto;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sakovich.scooterrental.repository.IRoleRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,18 +17,12 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@Log4j2
+@RequiredArgsConstructor
 public class RoleService implements IRoleService {
 
-    private final IRoleDao roleDao;
+    private final IRoleRepository roleDao;
     private final IRoleMapper roleMapper;
-
-    private static final Logger log = LogManager.getLogger(RoleService.class);
-
-    @Autowired
-    public RoleService(IRoleDao roleDao, IRoleMapper roleMapper) {
-        this.roleDao = roleDao;
-        this.roleMapper = roleMapper;
-    }
 
     @Override
     public RoleDto addRole(RoleDto dto) {

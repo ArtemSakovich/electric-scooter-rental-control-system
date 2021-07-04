@@ -2,22 +2,17 @@ package com.sakovich.scooterrental.web.controller;
 
 import com.sakovich.scooterrental.api.service.ISubscriptionService;
 import com.sakovich.scooterrental.model.dto.SubscriptionDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-//@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class SubscriptionController {
 
     private final ISubscriptionService subscriptionService;
-
-    @Autowired
-    public SubscriptionController(ISubscriptionService subscriptionService) {
-        this.subscriptionService = subscriptionService;
-    }
 
     @PostMapping(value = "/manager/subscription")
     public SubscriptionDto addSubscription(@RequestBody SubscriptionDto dto) {

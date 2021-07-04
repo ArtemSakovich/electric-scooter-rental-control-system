@@ -1,8 +1,7 @@
 package com.sakovich.scooterrental.web.security.jwt;
 
 import com.sakovich.scooterrental.web.security.service.UserDetailsServiceImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Log4j2
 public class AuthTokenFilter extends OncePerRequestFilter {
 
   @Autowired
@@ -24,8 +24,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
   @Autowired
   private UserDetailsServiceImpl userDetailsService;
-
-  private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -43,7 +41,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
       }
     } catch (Exception e) {
-      logger.error("Cannot set user authentication: {}", e);
+      log.error("Cannot set user authentication: {}", e);
     }
 
     filterChain.doFilter(request, response);
@@ -53,7 +51,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     String headerAuth = request.getHeader("Authorization");
 
     if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-      return headerAuth.substring(7, headerAuth.length());
+      return headerAuth.substring(7);
     }
 
     return null;

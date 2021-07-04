@@ -1,7 +1,7 @@
 package com.sakovich.scooterrental.service;
 
 import com.sakovich.scooterrental.api.mapper.IRoleMapper;
-import com.sakovich.scooterrental.dao.IRoleDao;
+import com.sakovich.scooterrental.repository.IRoleRepository;
 import com.sakovich.scooterrental.model.Role;
 import com.sakovich.scooterrental.model.dto.RoleDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 class RoleServiceTest {
 
     @Mock
-    IRoleDao roleDao;
+    IRoleRepository roleDao;
 
     @InjectMocks
     RoleService roleService;

@@ -3,12 +3,11 @@ package com.sakovich.scooterrental.service;
 import com.sakovich.scooterrental.api.exception.OperationCancelledException;
 import com.sakovich.scooterrental.api.mapper.IScooterModelMapper;
 import com.sakovich.scooterrental.api.service.IScooterModelService;
-import com.sakovich.scooterrental.dao.IScooterModelDao;
 import com.sakovich.scooterrental.model.ScooterModel;
 import com.sakovich.scooterrental.model.dto.ScooterModelDto;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sakovich.scooterrental.repository.IScooterModelRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,31 +17,25 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@Log4j2
+@RequiredArgsConstructor
 public class ScooterModelService implements IScooterModelService {
 
-    private final IScooterModelDao scooterModelDao;
+    private final IScooterModelRepository scooterModelRepository;
     private final IScooterModelMapper scooterModelMapper;
-
-    private static final Logger log = LogManager.getLogger(ScooterModelService.class);
-
-    @Autowired
-    public ScooterModelService(IScooterModelDao scooterModelDao, IScooterModelMapper scooterModelMapper) {
-        this.scooterModelDao = scooterModelDao;
-        this.scooterModelMapper = scooterModelMapper;
-    }
 
     @Override
     public ScooterModelDto addScooterModel(ScooterModelDto dto) {
         if (isDtoValid(dto)) {
             ScooterModel entity = scooterModelMapper.toEntity(dto);
-            scooterModelDao.save(entity);
+            scooterModelRepository.save(entity);
         }
         return scooterModelMapper.toDto(scooterModelMapper.toEntity(dto));
     }
 
     @Override
     public List<ScooterModelDto> getAll() {
-        return scooterModelDao.findAll().stream()
+        return scooterModelRepository.findAll().stream()
                 .map(scooterModelMapper::toDto)
                 .collect(Collectors.toList());
     }
@@ -57,18 +50,18 @@ public class ScooterModelService implements IScooterModelService {
         if (isDtoValid(dto)) {
             ScooterModel scooterModelToUpdate = getScooterModelByIdHandler(dto.getId());
             scooterModelToUpdate.setTitle(dto.getTitle());
-            scooterModelDao.save(scooterModelToUpdate);
+            scooterModelRepository.save(scooterModelToUpdate);
         }
-        return scooterModelMapper.toDto(scooterModelDao.getById(dto.getId()));
+        return scooterModelMapper.toDto(scooterModelRepository.getById(dto.getId()));
     }
 
     @Override
     public void delete(Long id) {
-        scooterModelDao.delete(getScooterModelByIdHandler(id));
+        scooterModelRepository.delete(getScooterModelByIdHandler(id));
     }
 
     private ScooterModel getScooterModelByIdHandler(Long id) {
-        Optional<ScooterModel> optionalScooterModel = scooterModelDao.findById(id);
+        Optional<ScooterModel> optionalScooterModel = scooterModelRepository.findById(id);
         if (optionalScooterModel.isPresent()) {
             return optionalScooterModel.get();
         } else {

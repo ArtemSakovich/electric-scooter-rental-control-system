@@ -3,14 +3,13 @@ package com.sakovich.scooterrental.service;
 import com.sakovich.scooterrental.api.exception.OperationCancelledException;
 import com.sakovich.scooterrental.api.mapper.IScooterMapper;
 import com.sakovich.scooterrental.api.service.IScooterService;
-import com.sakovich.scooterrental.dao.IScooterDao;
-import com.sakovich.scooterrental.dao.IScooterModelDao;
-import com.sakovich.scooterrental.dao.IScooterRentalPointDao;
 import com.sakovich.scooterrental.model.Scooter;
 import com.sakovich.scooterrental.model.dto.ScooterDto;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sakovich.scooterrental.repository.IScooterModelRepository;
+import com.sakovich.scooterrental.repository.IScooterRentalPointRepository;
+import com.sakovich.scooterrental.repository.IScooterRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,23 +19,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@Log4j2
+@RequiredArgsConstructor
 public class ScooterService implements IScooterService {
 
-    private final IScooterDao scooterDao;
-    private final IScooterModelDao scooterModelDao;
-    private final IScooterRentalPointDao rentalPointDao;
+    private final IScooterRepository scooterDao;
+    private final IScooterModelRepository scooterModelDao;
+    private final IScooterRentalPointRepository rentalPointDao;
     private final IScooterMapper scooterMapper;
-
-    private static final Logger log = LogManager.getLogger(ScooterService.class);
-
-    @Autowired
-    public ScooterService(IScooterDao scooterDao, IScooterModelDao scooterModelDao,
-                          IScooterRentalPointDao rentalPointDao, IScooterMapper scooterMapper) {
-        this.scooterDao = scooterDao;
-        this.scooterModelDao = scooterModelDao;
-        this.rentalPointDao = rentalPointDao;
-        this.scooterMapper = scooterMapper;
-    }
 
     @Override
     public ScooterDto addScooter(ScooterDto dto) {
@@ -80,14 +70,14 @@ public class ScooterService implements IScooterService {
 
     @Override
     public List<ScooterDto> getAllByRentalPointId(Long id) {
-        return scooterDao.getScootersByScooterRentalPointId(id).stream()
+        return scooterDao.getByScooterRentalPointId(id).stream()
                 .map(scooterMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<ScooterDto> getAvailableScootersByRentalPointId(Long id) {
-        return scooterDao.getSAvailableScootersByScooterRentalPointId(id).stream()
+        return scooterDao.getAvailableByScooterRentalPointId(id).stream()
                 .map(scooterMapper::toDto)
                 .collect(Collectors.toList());
     }

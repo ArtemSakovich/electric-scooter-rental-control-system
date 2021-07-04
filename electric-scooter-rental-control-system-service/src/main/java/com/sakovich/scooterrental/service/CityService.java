@@ -3,9 +3,11 @@ package com.sakovich.scooterrental.service;
 import com.sakovich.scooterrental.api.exception.OperationCancelledException;
 import com.sakovich.scooterrental.api.mapper.ICityMapper;
 import com.sakovich.scooterrental.api.service.ICityService;
-import com.sakovich.scooterrental.dao.ICityDao;
+import com.sakovich.scooterrental.repository.ICityRepository;
 import com.sakovich.scooterrental.model.City;
 import com.sakovich.scooterrental.model.dto.CityDto;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,40 +19,28 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/** Provides methods for transferring data from {@link ICityDao} to CityController as well as processing.
+/** Provides methods for transferring data from {@link ICityRepository} to CityController as well as processing.
  * @author ArtemSakovich
  */
 @Service
 @Transactional
+@Log4j2
+@RequiredArgsConstructor
 public class CityService implements ICityService {
 
     /**
-     * An implementation instance of a {@link ICityDao} that provides access to its methods
+     * An implementation instance of a {@link ICityRepository} that provides access to its methods
      */
-    private final ICityDao cityDao;
+    private final ICityRepository cityDao;
     /**
      * An implementation instance of a {@link ICityMapper} that provides access to its methods
      */
     private final ICityMapper cityMapper;
 
-    private static final Logger log = LogManager.getLogger(CityService.class);
-
-    /**
-     * Required bin initializer
-     *
-     * @param cityDao    provides access to {@link ICityDao} methods
-     * @param cityMapper provides access to {@link ICityMapper} impl methods
-     */
-    @Autowired
-    public CityService(ICityDao cityDao, ICityMapper cityMapper) {
-        this.cityDao = cityDao;
-        this.cityMapper = cityMapper;
-    }
-
     /**
      * Provides functionality to add a new city to the database. The essence of the method is to check the validity
      * of the {@link CityDto} that came from the UI and, in case of a successful check, map it to {@link City} tracked
-     * by Hibernate. Then we save it to the database using the method of {@link ICityDao}
+     * by Hibernate. Then we save it to the database using the method of {@link ICityRepository}
      *
      * @param dto an instance of {@link CityDto} come from UI
      * @return an instance of {@link CityDto} to show the added entity on UI
@@ -65,7 +55,7 @@ public class CityService implements ICityService {
 
     /**
      * Provides functionality to get collection of {@link CityDto} as list to show it on the Ui. The essence of the
-     * method is to get collection of {@link City} as list from {@link ICityDao} turning it into a stream. Then map
+     * method is to get collection of {@link City} as list from {@link ICityRepository} turning it into a stream. Then map
      * each to {@link City} and reassemble it into collection of {@link CityDto} of entities for transferring to controller
      *
      * @return collection of {@link CityDto} as list to show it on the UI
@@ -79,7 +69,7 @@ public class CityService implements ICityService {
 
     /**
      * Provides functionality to get {@link CityDto} to show it on the Ui. The essence of the method is to get instance
-     * of {@link City} from {@link ICityDao} using private method to handle possible exception. Then map it to
+     * of {@link City} from {@link ICityRepository} using private method to handle possible exception. Then map it to
      * {@link CityDto} and transfer to controller for representing on the UI
      *
      * @param id an identification number of city we want to receive
@@ -94,7 +84,7 @@ public class CityService implements ICityService {
      * Provides functionality to update city in the database. The essence of the method is to check the validity
      * of the {@link CityDto} that came from the UI and, in case of a successful get instance of {@link City} using
      * private method to handle possible exception. Then set new name to updating city and save it to the database
-     * using the method of {@link ICityDao}
+     * using the method of {@link ICityRepository}
      *
      * @param dto an instance of {@link CityDto} come from UI
      * @return - an instance of {@link CityDto} to show the updated entity on UI
@@ -111,7 +101,7 @@ public class CityService implements ICityService {
 
     /**
      * Provides functionality to delete city from the database. The essence of the method is get to get {@link City}
-     * by id using private method to handle possible exception and then pass it as parameter to {@link ICityDao} delete method
+     * by id using private method to handle possible exception and then pass it as parameter to {@link ICityRepository} delete method
      *
      * @param id an identification number of city we want to delete
      */

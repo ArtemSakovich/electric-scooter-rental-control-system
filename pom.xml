@@ -6,10 +6,11 @@
     <packaging>pom</packaging>
     <modules>
         <module>electric-scooter-rental-control-system-model</module>
-        <module>electric-scooter-rental-control-system-dao</module>
         <module>electric-scooter-rental-control-system-api</module>
         <module>electric-scooter-rental-control-system-service</module>
+        <module>electric-scooter-rental-control-system-repository</module>
         <module>electric-scooter-rental-control-system-web</module>
+        <module>electric-scooter-rental-control-system-repository</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -29,6 +30,11 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
         </dependency>
     </dependencies>
     <build>

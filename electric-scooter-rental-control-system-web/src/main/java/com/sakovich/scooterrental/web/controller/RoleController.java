@@ -2,22 +2,17 @@ package com.sakovich.scooterrental.web.controller;
 
 import com.sakovich.scooterrental.api.service.IRoleService;
 import com.sakovich.scooterrental.model.dto.RoleDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-//@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class RoleController {
 
     private final IRoleService roleService;
-
-    @Autowired
-    public RoleController(IRoleService roleService) {
-        this.roleService = roleService;
-    }
 
     @PostMapping(value = "/admin/role")
     public RoleDto addRole(@RequestBody RoleDto dto) {

@@ -2,22 +2,17 @@ package com.sakovich.scooterrental.web.controller;
 
 import com.sakovich.scooterrental.api.service.IRideSessionService;
 import com.sakovich.scooterrental.model.dto.RideSessionDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-//@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class RideSessionController {
 
     private final IRideSessionService rideSessionService;
-
-    @Autowired
-    public RideSessionController(IRideSessionService rideSessionService) {
-        this.rideSessionService = rideSessionService;
-    }
 
     @GetMapping(value = "/manager/ride-sessions")
     public List<RideSessionDto> getAll() {

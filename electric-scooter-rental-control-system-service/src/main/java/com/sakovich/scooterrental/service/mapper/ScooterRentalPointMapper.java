@@ -1,34 +1,29 @@
 package com.sakovich.scooterrental.service.mapper;
 
 import com.sakovich.scooterrental.api.mapper.IScooterRentalPointMapper;
-import com.sakovich.scooterrental.dao.ICityDao;
 import com.sakovich.scooterrental.model.ScooterRentalPoint;
 import com.sakovich.scooterrental.model.dto.ScooterRentalPointDto;
+import com.sakovich.scooterrental.repository.ICityRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Objects;
 
 @Component
+@RequiredArgsConstructor
 public class ScooterRentalPointMapper implements IScooterRentalPointMapper {
 
     private final ModelMapper mapper;
-    private final ICityDao cityDao;
-
-    @Autowired
-    public ScooterRentalPointMapper(ModelMapper mapper, ICityDao cityDao) {
-        this.mapper = mapper;
-        this.cityDao = cityDao;
-    }
+    private final ICityRepository cityDao;
 
     @PostConstruct
     public void setupMapper() {
         TypeMap<ScooterRentalPoint, ScooterRentalPointDto> typeMap = mapper.getTypeMap(ScooterRentalPoint.class, ScooterRentalPointDto.class);
-        if (typeMap == null) { // if not  already added
+        if (typeMap == null) {
             mapper.createTypeMap(ScooterRentalPoint.class, ScooterRentalPointDto.class)
                     .addMappings(m -> m.skip(ScooterRentalPointDto::setCityId)).setPostConverter(toDtoConverter());
             mapper.createTypeMap(ScooterRentalPointDto.class, ScooterRentalPoint.class)

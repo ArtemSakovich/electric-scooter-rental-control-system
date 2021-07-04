@@ -2,22 +2,17 @@ package com.sakovich.scooterrental.web.controller;
 
 import com.sakovich.scooterrental.api.service.ICityService;
 import com.sakovich.scooterrental.model.dto.CityDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-//@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class CityController {
 
     private final ICityService cityService;
-
-    @Autowired
-    public CityController(ICityService cityService) {
-        this.cityService = cityService;
-    }
 
     @PostMapping(value = "/manager/city")
     public CityDto addCity(@RequestBody CityDto dto) {

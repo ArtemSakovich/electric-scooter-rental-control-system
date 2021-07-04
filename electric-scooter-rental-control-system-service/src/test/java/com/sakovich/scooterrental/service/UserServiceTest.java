@@ -1,16 +1,8 @@
 package com.sakovich.scooterrental.service;
 
-import com.sakovich.scooterrental.api.mapper.ICityMapper;
-import com.sakovich.scooterrental.api.mapper.IRoleMapper;
 import com.sakovich.scooterrental.api.mapper.IUserMapper;
-import com.sakovich.scooterrental.dao.ICityDao;
-import com.sakovich.scooterrental.dao.IRoleDao;
-import com.sakovich.scooterrental.dao.IUserDao;
-import com.sakovich.scooterrental.model.City;
-import com.sakovich.scooterrental.model.Role;
+import com.sakovich.scooterrental.repository.IUserRepository;
 import com.sakovich.scooterrental.model.User;
-import com.sakovich.scooterrental.model.dto.CityDto;
-import com.sakovich.scooterrental.model.dto.RoleDto;
 import com.sakovich.scooterrental.model.dto.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +23,7 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
 
     @Mock
-    IUserDao userDao;
+    IUserRepository userDao;
 
     @InjectMocks
     UserService userService;
@@ -78,7 +70,7 @@ class UserServiceTest {
 
     @Test
     void getUserByEmail() {
-        given(userDao.getUserByEmail("email")).willReturn(new User());
+        given(userDao.getByEmail("email")).willReturn(new User());
         User returnedUser = (userService.getUserByEmail("email"));
         assertNotNull(returnedUser);
     }

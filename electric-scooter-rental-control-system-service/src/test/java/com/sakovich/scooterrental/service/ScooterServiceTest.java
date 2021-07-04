@@ -1,7 +1,7 @@
 package com.sakovich.scooterrental.service;
 
 import com.sakovich.scooterrental.api.mapper.IScooterMapper;
-import com.sakovich.scooterrental.dao.IScooterDao;
+import com.sakovich.scooterrental.repository.IScooterRepository;
 import com.sakovich.scooterrental.model.Scooter;
 import com.sakovich.scooterrental.model.dto.ScooterDto;
 import com.sakovich.scooterrental.model.enums.ScooterStatus;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 class ScooterServiceTest {
 
     @Mock
-    IScooterDao scooterDao;
+    IScooterRepository scooterDao;
 
     @InjectMocks
     ScooterService scooterService;
@@ -91,7 +91,7 @@ class ScooterServiceTest {
         scooters.add(Scooter.builder().id(2L).pricePerHour(13.5f).passedHours(55).build());
         scooters.add(Scooter.builder().id(3L).pricePerHour(15.5f).passedHours(57).build());
 
-        given(scooterDao.getSAvailableScootersByScooterRentalPointId(1L)).willReturn(scooters);
+        given(scooterDao.getAvailableByScooterRentalPointId(1L)).willReturn(scooters);
 
         int receivedSize = scooterService.getAvailableScootersByRentalPointId(1L).size();
 

@@ -1,34 +1,29 @@
 package com.sakovich.scooterrental.service.mapper;
 
 import com.sakovich.scooterrental.api.mapper.ISubscriptionMapper;
-import com.sakovich.scooterrental.dao.IUserDao;
 import com.sakovich.scooterrental.model.Subscription;
 import com.sakovich.scooterrental.model.dto.SubscriptionDto;
+import com.sakovich.scooterrental.repository.IUserRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Objects;
 
 @Component
+@RequiredArgsConstructor
 public class SubscriptionMapper implements ISubscriptionMapper {
 
     private final ModelMapper mapper;
-    private final IUserDao userDao;
-
-    @Autowired
-    public SubscriptionMapper(ModelMapper mapper, IUserDao userDao) {
-        this.mapper = mapper;
-        this.userDao = userDao;
-    }
+    private final IUserRepository userDao;
 
     @PostConstruct
     public void setupMapper() {
         TypeMap<Subscription, SubscriptionDto> typeMap = mapper.getTypeMap(Subscription.class, SubscriptionDto.class);
-        if (typeMap == null) { // if not  already added
+        if (typeMap == null) {
             mapper.createTypeMap(Subscription.class, SubscriptionDto.class)
                     .addMappings(m -> m.skip(SubscriptionDto::setUserId)).setPostConverter(toDtoConverter());
             mapper.createTypeMap(SubscriptionDto.class, Subscription.class)

@@ -1,7 +1,7 @@
 package com.sakovich.scooterrental.service;
 
 import com.sakovich.scooterrental.api.mapper.IScooterModelMapper;
-import com.sakovich.scooterrental.dao.IScooterModelDao;
+import com.sakovich.scooterrental.repository.IScooterModelRepository;
 import com.sakovich.scooterrental.model.ScooterModel;
 import com.sakovich.scooterrental.model.dto.ScooterModelDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 class ScooterModelServiceTest {
 
     @Mock
-    IScooterModelDao scooterModelDao;
+    IScooterModelRepository scooterModelDao;
 
     @InjectMocks
     ScooterModelService scooterModelService;

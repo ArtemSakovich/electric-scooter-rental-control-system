@@ -1,37 +1,31 @@
 package com.sakovich.scooterrental.service.mapper;
 
 import com.sakovich.scooterrental.api.mapper.IScooterMapper;
-import com.sakovich.scooterrental.dao.IScooterModelDao;
-import com.sakovich.scooterrental.dao.IScooterRentalPointDao;
 import com.sakovich.scooterrental.model.Scooter;
 import com.sakovich.scooterrental.model.dto.ScooterDto;
+import com.sakovich.scooterrental.repository.IScooterModelRepository;
+import com.sakovich.scooterrental.repository.IScooterRentalPointRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Objects;
 
 @Component
+@RequiredArgsConstructor
 public class ScooterMapper implements IScooterMapper {
 
     private final ModelMapper mapper;
-    private final IScooterModelDao scooterModelDao;
-    private final IScooterRentalPointDao scooterRentalPointDao;
-
-    @Autowired
-    public ScooterMapper(ModelMapper mapper, IScooterModelDao scooterModelDao, IScooterRentalPointDao scooterRentalPointDao) {
-        this.mapper = mapper;
-        this.scooterModelDao = scooterModelDao;
-        this.scooterRentalPointDao = scooterRentalPointDao;
-    }
+    private final IScooterModelRepository scooterModelDao;
+    private final IScooterRentalPointRepository scooterRentalPointDao;
 
     @PostConstruct
     public void setupMapper() {
         TypeMap<Scooter, ScooterDto> typeMap = mapper.getTypeMap(Scooter.class, ScooterDto.class);
-        if (typeMap == null) { // if not  already added
+        if (typeMap == null) {
             mapper.createTypeMap(Scooter.class, ScooterDto.class)
                     .addMappings(m -> m.skip(ScooterDto::setModelId)).setPostConverter(toDtoConverter())
                     .addMappings(m -> m.skip(ScooterDto::setScooterRentalPointId)).setPostConverter(toDtoConverter());

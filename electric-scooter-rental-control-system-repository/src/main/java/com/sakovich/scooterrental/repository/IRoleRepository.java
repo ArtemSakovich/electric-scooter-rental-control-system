@@ -1,11 +1,11 @@
-package com.sakovich.scooterrental.dao;
+package com.sakovich.scooterrental.repository;
 
 import com.sakovich.scooterrental.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IRoleDao extends JpaRepository<Role, Long> {
+public interface IRoleRepository extends JpaRepository<Role, Long> {
 
-    Role getRoleByName(String name);
+    Role getByName(String name);
 }

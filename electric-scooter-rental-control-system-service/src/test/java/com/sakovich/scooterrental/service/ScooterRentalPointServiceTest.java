@@ -1,7 +1,7 @@
 package com.sakovich.scooterrental.service;
 
 import com.sakovich.scooterrental.api.mapper.IScooterRentalPointMapper;
-import com.sakovich.scooterrental.dao.IScooterRentalPointDao;
+import com.sakovich.scooterrental.repository.IScooterRentalPointRepository;
 import com.sakovich.scooterrental.model.ScooterRentalPoint;
 import com.sakovich.scooterrental.model.dto.ScooterRentalPointDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 class ScooterRentalPointServiceTest {
 
     @Mock
-    IScooterRentalPointDao scooterRentalPointDao;
+    IScooterRentalPointRepository scooterRentalPointDao;
 
     @InjectMocks
     ScooterRentalPointService scooterRentalPointService;
@@ -89,7 +89,7 @@ class ScooterRentalPointServiceTest {
         scooterRentalPoints.add(ScooterRentalPoint.builder().id(2L).street("Street_2").buildingNumber("13").build());
         scooterRentalPoints.add(ScooterRentalPoint.builder().id(3L).street("Street_3").buildingNumber("14").build());
 
-        given(scooterRentalPointDao.findScooterRentalPointByCity_Id(1L)).willReturn(scooterRentalPoints);
+        given(scooterRentalPointDao.findSByCity_Id(1L)).willReturn(scooterRentalPoints);
         given(scooterRentalPointMapper.toDto(any(ScooterRentalPoint.class))).willReturn(new ScooterRentalPointDto());
         int receivedSize = scooterRentalPointService.getAllScooterRentalPointsByCity(1L).size();
 
@@ -98,7 +98,7 @@ class ScooterRentalPointServiceTest {
 
     @Test
     void getScooterRentalPointByScooterId() {
-        given(scooterRentalPointDao.getScooterRentalPointByScooterId(1L)).willReturn(new ScooterRentalPoint());
+        given(scooterRentalPointDao.getByScooterId(1L)).willReturn(new ScooterRentalPoint());
         given(scooterRentalPointMapper.toDto(any(ScooterRentalPoint.class))).willReturn(new ScooterRentalPointDto());
         ScooterRentalPointDto returnedScooterRentalPoint = (scooterRentalPointService.getScooterRentalPointByScooterId(1L));
         assertNotNull(returnedScooterRentalPoint);

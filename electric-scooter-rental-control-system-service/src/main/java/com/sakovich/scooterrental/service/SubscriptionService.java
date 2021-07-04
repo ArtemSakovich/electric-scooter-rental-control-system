@@ -3,15 +3,12 @@ package com.sakovich.scooterrental.service;
 import com.sakovich.scooterrental.api.exception.OperationCancelledException;
 import com.sakovich.scooterrental.api.mapper.ISubscriptionMapper;
 import com.sakovich.scooterrental.api.service.ISubscriptionService;
-import com.sakovich.scooterrental.dao.ISubscriptionDao;
-import com.sakovich.scooterrental.dao.IUserDao;
-import com.sakovich.scooterrental.model.Role;
 import com.sakovich.scooterrental.model.Subscription;
-import com.sakovich.scooterrental.model.dto.RoleDto;
 import com.sakovich.scooterrental.model.dto.SubscriptionDto;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sakovich.scooterrental.repository.ISubscriptionRepository;
+import com.sakovich.scooterrental.repository.IUserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,20 +20,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@Log4j2
+@RequiredArgsConstructor
 public class SubscriptionService implements ISubscriptionService {
 
-    private final ISubscriptionDao subscriptionDao;
+    private final ISubscriptionRepository subscriptionDao;
     private final ISubscriptionMapper subscriptionMapper;
-    private final IUserDao userDao;
-
-    private static final Logger log = LogManager.getLogger(SubscriptionService.class);
-
-    @Autowired
-    public SubscriptionService(ISubscriptionDao subscriptionDao, ISubscriptionMapper subscriptionMapper, IUserDao userDao) {
-        this.subscriptionDao = subscriptionDao;
-        this.subscriptionMapper = subscriptionMapper;
-        this.userDao = userDao;
-    }
+    private final IUserRepository userDao;
 
     @Override
     public SubscriptionDto addSubscription(SubscriptionDto dto) {

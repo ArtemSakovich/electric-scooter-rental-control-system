@@ -1,12 +1,8 @@
 package com.sakovich.scooterrental.service;
 
-import com.sakovich.scooterrental.api.mapper.ICityMapper;
 import com.sakovich.scooterrental.api.mapper.ISubscriptionMapper;
-import com.sakovich.scooterrental.dao.ICityDao;
-import com.sakovich.scooterrental.dao.ISubscriptionDao;
-import com.sakovich.scooterrental.model.City;
+import com.sakovich.scooterrental.repository.ISubscriptionRepository;
 import com.sakovich.scooterrental.model.Subscription;
-import com.sakovich.scooterrental.model.dto.CityDto;
 import com.sakovich.scooterrental.model.dto.SubscriptionDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +23,7 @@ import static org.mockito.Mockito.*;
 class SubscriptionServiceTest {
 
     @Mock
-    ISubscriptionDao subscriptionDao;
+    ISubscriptionRepository subscriptionDao;
 
     @InjectMocks
     SubscriptionService subscriptionService;

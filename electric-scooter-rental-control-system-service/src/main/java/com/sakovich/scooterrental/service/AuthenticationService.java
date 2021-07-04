@@ -1,13 +1,14 @@
 package com.sakovich.scooterrental.service;
 
-import com.sakovich.scooterrental.dao.IRoleDao;
-import com.sakovich.scooterrental.dao.IUserDao;
 import com.sakovich.scooterrental.model.Role;
 import com.sakovich.scooterrental.model.User;
 import com.sakovich.scooterrental.model.dto.request.SignupRequest;
 import com.sakovich.scooterrental.model.dto.response.MessageResponse;
 import com.sakovich.scooterrental.model.enums.ERole;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sakovich.scooterrental.repository.IRoleRepository;
+import com.sakovich.scooterrental.repository.IUserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,27 +16,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@Log4j2
+@RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final IUserDao userDao;
-    private final IRoleDao roleDao;
+    private final IUserRepository userDao;
+    private final IRoleRepository roleDao;
     private final PasswordEncoder encoder;
-
-    @Autowired
-    public AuthenticationService(IUserDao userDao, IRoleDao roleDao, PasswordEncoder encoder) {
-        this.userDao = userDao;
-        this.roleDao = roleDao;
-        this.encoder = encoder;
-    }
 
     public ResponseEntity<?> registerUser(SignupRequest signUpRequest) {
         if (userDao.existsByEmail(signUpRequest.getEmail())) {
+            log.error("Error when trying to register user. Email is already taken!");
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already taken!"));
         }
 
-        Role userRole = roleDao.getRoleByName(ERole.ROLE_USER.toString());
+        Role userRole = roleDao.getByName(ERole.ROLE_USER.toString());
 
         User user = new User(signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),

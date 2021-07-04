@@ -3,10 +3,12 @@ package com.sakovich.scooterrental.service;
 import com.sakovich.scooterrental.api.exception.OperationCancelledException;
 import com.sakovich.scooterrental.api.mapper.IScooterRentalPointMapper;
 import com.sakovich.scooterrental.api.service.IScooterRentalPointService;
-import com.sakovich.scooterrental.dao.ICityDao;
-import com.sakovich.scooterrental.dao.IScooterRentalPointDao;
+import com.sakovich.scooterrental.repository.ICityRepository;
+import com.sakovich.scooterrental.repository.IScooterRentalPointRepository;
 import com.sakovich.scooterrental.model.ScooterRentalPoint;
 import com.sakovich.scooterrental.model.dto.ScooterRentalPointDto;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,21 +21,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@Log4j2
+@RequiredArgsConstructor
 public class ScooterRentalPointService implements IScooterRentalPointService {
 
-    private final IScooterRentalPointDao scooterRentalPointDao;
+    private final IScooterRentalPointRepository scooterRentalPointDao;
     private final IScooterRentalPointMapper scooterRentalPointMapper;
-    private final ICityDao cityDao;
-
-    private static final Logger log = LogManager.getLogger(ScooterRentalPointService.class);
-
-    @Autowired
-    public ScooterRentalPointService(IScooterRentalPointDao scooterRentalPointDao,
-                                     IScooterRentalPointMapper scooterRentalPointMapper, ICityDao cityDao) {
-        this.scooterRentalPointDao = scooterRentalPointDao;
-        this.scooterRentalPointMapper = scooterRentalPointMapper;
-        this.cityDao = cityDao;
-    }
+    private final ICityRepository cityDao;
 
     @Override
     public ScooterRentalPointDto addRentalPoint(ScooterRentalPointDto dto) {
@@ -76,14 +70,14 @@ public class ScooterRentalPointService implements IScooterRentalPointService {
 
     @Override
     public List<ScooterRentalPointDto> getAllScooterRentalPointsByCity(Long cityId) {
-        return scooterRentalPointDao.findScooterRentalPointByCity_Id(cityId).stream()
+        return scooterRentalPointDao.findSByCity_Id(cityId).stream()
                 .map(scooterRentalPointMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public ScooterRentalPointDto getScooterRentalPointByScooterId(Long scooterId) {
-        return scooterRentalPointMapper.toDto(scooterRentalPointDao.getScooterRentalPointByScooterId(scooterId));
+        return scooterRentalPointMapper.toDto(scooterRentalPointDao.getByScooterId(scooterId));
     }
 
     private ScooterRentalPoint getScooterRentalPointByIdHandler(Long id) {

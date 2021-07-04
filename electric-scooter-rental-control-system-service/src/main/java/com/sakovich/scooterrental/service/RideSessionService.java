@@ -3,15 +3,14 @@ package com.sakovich.scooterrental.service;
 import com.sakovich.scooterrental.api.exception.OperationCancelledException;
 import com.sakovich.scooterrental.api.mapper.IRideSessionMapper;
 import com.sakovich.scooterrental.api.service.IRideSessionService;
-import com.sakovich.scooterrental.dao.*;
 import com.sakovich.scooterrental.model.RideSession;
 import com.sakovich.scooterrental.model.Scooter;
 import com.sakovich.scooterrental.model.Subscription;
 import com.sakovich.scooterrental.model.User;
 import com.sakovich.scooterrental.model.dto.RideSessionDto;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sakovich.scooterrental.repository.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,27 +23,16 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@Log4j2
+@RequiredArgsConstructor
 public class RideSessionService implements IRideSessionService {
 
-    private final IRideSessionDao rideSessionDao;
-    private final IScooterDao scooterDao;
-    private final ISubscriptionDao subscriptionDao;
-    private final IUserDao userDao;
-    private final IScooterRentalPointDao scooterRentalPointDao;
+    private final IRideSessionRepository rideSessionDao;
+    private final IScooterRepository scooterDao;
+    private final ISubscriptionRepository subscriptionDao;
+    private final IUserRepository userDao;
+    private final IScooterRentalPointRepository scooterRentalPointDao;
     private final IRideSessionMapper rideSessionMapper;
-
-    private static final Logger log = LogManager.getLogger(RideSessionService.class);
-
-    @Autowired
-    public RideSessionService(IRideSessionDao rideSessionDao, IScooterDao scooterDao, ISubscriptionDao subscriptionDao,
-                              IUserDao userDao, IScooterRentalPointDao scooterRentalPointDao, IRideSessionMapper rideSessionMapper) {
-        this.rideSessionDao = rideSessionDao;
-        this.scooterDao = scooterDao;
-        this.subscriptionDao = subscriptionDao;
-        this.userDao = userDao;
-        this.scooterRentalPointDao = scooterRentalPointDao;
-        this.rideSessionMapper = rideSessionMapper;
-    }
 
     @Override
     public List<RideSessionDto> getAll() {
@@ -103,14 +91,14 @@ public class RideSessionService implements IRideSessionService {
 
     @Override
     public List<RideSessionDto> getAllByUserId(Long id) {
-        return rideSessionDao.getRideSessionsByUserId(id).stream()
+        return rideSessionDao.getByUserId(id).stream()
                 .map(rideSessionMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<RideSessionDto> getALLByScooterId(Long id) {
-        return rideSessionDao.getRideSessionsByScooterId(id).stream()
+        return rideSessionDao.getByScooterId(id).stream()
                 .map(rideSessionMapper::toDto)
                 .collect(Collectors.toList());
     }
