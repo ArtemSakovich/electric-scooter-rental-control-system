@@ -1,0 +1,51 @@
+version: '2'
+
+services:
+  app:
+    image: 'electric-scooter-rental-control-system-image:latest'
+    build:
+      context: ""
+    container_name: electric-scooter-rental-control-system-container
+    depends_on:
+      - db
+    environment:
+      # Datasource configuration
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/electric_scooter_rental_control_system_db
+      - SPRING_DATASOURCE_USERNAME=artemsakovich
+      - SPRING_DATASOURCE_PASSWORD=adminartem
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+      # Hibernate properties
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      # Logging properties
+      - LOGGING_LEVEL_COM_SAKOVICH=info
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK=error
+      - LOGGING_FILE_NAME=/logs/scooter_rental_logs.txt
+      - LOGGING_PATTERN_FILE=%d %level [%t] %c - %m%n
+      # JWT properties
+      - JWT_TOKEN_SECRET=scooterrental
+      - JWT_TOKEN_EXPIRED=3600000
+      # Liquibase properties
+      - SPRING_LIQUIBASE_CHANGE_LOG=classpath:db/changelog/db.changelog-master.xml
+    ports:
+      - "8081:8081"
+    volumes:
+      - "/home/user/Temp/logs:/logs"
+
+  db:
+    image: 'postgres'
+    container_name: db
+    environment:
+      - POSTGRES_USER=artemsakovich
+      - POSTGRES_PASSWORD=adminartem
+      - POSTGRES_DB=electric_scooter_rental_control_system_db
+    ports:
+      - "5432:5432"
+    volumes_from:
+      - db_data
+
+  db_data:
+    image: cogniteev/echo
+    command: echo 'Data Container for PostgreSQL'
+    volumes:
+      - /opt/postgresdata/:/var/lib/postgresql/data

@@ -9,7 +9,7 @@ import com.sakovich.scooterrental.repository.IScooterModelRepository;
 import com.sakovich.scooterrental.repository.IScooterRentalPointRepository;
 import com.sakovich.scooterrental.repository.IScooterRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 public class ScooterService implements IScooterService {
 

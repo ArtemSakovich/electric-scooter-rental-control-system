@@ -6,6 +6,7 @@ import com.sakovich.scooterrental.model.dto.response.JwtResponse;
 import com.sakovich.scooterrental.service.AuthenticationService;
 import com.sakovich.scooterrental.web.security.jwt.JwtUtils;
 import com.sakovich.scooterrental.web.security.service.UserDetailsImpl;
+import com.sakovich.scooterrental.web.utils.annotation.Logging;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@Logging
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;

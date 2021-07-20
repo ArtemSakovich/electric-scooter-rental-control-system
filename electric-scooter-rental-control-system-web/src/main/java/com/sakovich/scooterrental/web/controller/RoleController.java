@@ -2,6 +2,7 @@ package com.sakovich.scooterrental.web.controller;
 
 import com.sakovich.scooterrental.api.service.IRoleService;
 import com.sakovich.scooterrental.model.dto.RoleDto;
+import com.sakovich.scooterrental.web.utils.annotation.Logging;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Logging
 public class RoleController {
 
     private final IRoleService roleService;

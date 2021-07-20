@@ -8,7 +8,7 @@ import com.sakovich.scooterrental.model.enums.ERole;
 import com.sakovich.scooterrental.repository.IRoleRepository;
 import com.sakovich.scooterrental.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 public class AuthenticationService {
 

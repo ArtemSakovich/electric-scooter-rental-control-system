@@ -3,14 +3,11 @@ package com.sakovich.scooterrental.service;
 import com.sakovich.scooterrental.api.exception.OperationCancelledException;
 import com.sakovich.scooterrental.api.mapper.ICityMapper;
 import com.sakovich.scooterrental.api.service.ICityService;
-import com.sakovich.scooterrental.repository.ICityRepository;
 import com.sakovich.scooterrental.model.City;
 import com.sakovich.scooterrental.model.dto.CityDto;
+import com.sakovich.scooterrental.repository.ICityRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +21,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 public class CityService implements ICityService {
 

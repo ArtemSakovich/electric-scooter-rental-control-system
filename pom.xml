@@ -10,7 +10,6 @@
         <module>electric-scooter-rental-control-system-service</module>
         <module>electric-scooter-rental-control-system-repository</module>
         <module>electric-scooter-rental-control-system-web</module>
-        <module>electric-scooter-rental-control-system-repository</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
