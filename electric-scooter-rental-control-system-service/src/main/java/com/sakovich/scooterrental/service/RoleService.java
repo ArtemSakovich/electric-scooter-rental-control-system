@@ -28,7 +28,7 @@ public class RoleService implements IRoleService {
     public RoleDto addRole(RoleDto dto) {
         if (isDtoValid(dto)) {
             Role entity = roleMapper.toEntity(dto);
-            roleDao.save(entity);
+            return roleMapper.toDto(roleDao.save(entity));
         }
         return roleMapper.toDto(roleMapper.toEntity(dto));
     }

@@ -33,7 +33,7 @@ public class SubscriptionService implements ISubscriptionService {
         if (isDtoValid(dto)) {
             Subscription entity = subscriptionMapper.toEntity(dto);
             entity.setCreatedOn(Timestamp.valueOf(LocalDateTime.now()));
-            subscriptionDao.save(entity);
+            return subscriptionMapper.toDto(subscriptionDao.save(entity));
         }
         return subscriptionMapper.toDto(subscriptionMapper.toEntity(dto));
     }

@@ -30,7 +30,7 @@ public class ScooterRentalPointService implements IScooterRentalPointService {
     public ScooterRentalPointDto addRentalPoint(ScooterRentalPointDto dto) {
         if (isDtoValid(dto)) {
             ScooterRentalPoint scooterRentalPoint = scooterRentalPointMapper.toEntity(dto);
-            scooterRentalPointDao.save(scooterRentalPoint);
+            return scooterRentalPointMapper.toDto(scooterRentalPointDao.save(scooterRentalPoint));
         }
         return scooterRentalPointMapper.toDto(scooterRentalPointMapper.toEntity(dto));
     }

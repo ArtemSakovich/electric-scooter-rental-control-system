@@ -32,7 +32,7 @@ public class ScooterService implements IScooterService {
     public ScooterDto addScooter(ScooterDto dto) {
         if (isDtoValid(dto)) {
             Scooter entity = scooterMapper.toEntity(dto);
-            scooterDao.save(entity);
+            return scooterMapper.toDto(scooterDao.save(entity));
         }
         return scooterMapper.toDto(scooterMapper.toEntity(dto));
     }
