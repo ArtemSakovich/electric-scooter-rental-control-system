@@ -28,7 +28,7 @@ public class ScooterModelService implements IScooterModelService {
     public ScooterModelDto addScooterModel(ScooterModelDto dto) {
         if (isDtoValid(dto)) {
             ScooterModel entity = scooterModelMapper.toEntity(dto);
-            scooterModelRepository.save(entity);
+            return scooterModelMapper.toDto(scooterModelRepository.save(entity));
         }
         return scooterModelMapper.toDto(scooterModelMapper.toEntity(dto));
     }
