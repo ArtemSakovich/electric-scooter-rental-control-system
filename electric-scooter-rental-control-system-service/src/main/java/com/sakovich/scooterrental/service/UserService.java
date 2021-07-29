@@ -8,7 +8,7 @@ import com.sakovich.scooterrental.model.dto.UserDto;
 import com.sakovich.scooterrental.repository.IRoleRepository;
 import com.sakovich.scooterrental.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 public class UserService implements IUserService {
 

@@ -7,7 +7,7 @@ import com.sakovich.scooterrental.model.Role;
 import com.sakovich.scooterrental.model.dto.RoleDto;
 import com.sakovich.scooterrental.repository.IRoleRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 public class RoleService implements IRoleService {
 
