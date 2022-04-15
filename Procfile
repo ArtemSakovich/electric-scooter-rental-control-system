@@ -1,1 +1,1 @@
-heroku ps:scale web=1
+web: java -jar target/electric-scooter-rental-control-system-web-1.0-SNAPSHOT.jar
