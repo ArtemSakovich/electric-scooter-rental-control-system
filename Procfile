@@ -1,1 +1,1 @@
-web: java -jar target/electric-scooter-rental-control-system-web-1.0-SNAPSHOT.jar
+web: java -jar electric-scooter-rental-control-system-web/target/electric-scooter-rental-control-system-web-1.0-SNAPSHOT.jar
