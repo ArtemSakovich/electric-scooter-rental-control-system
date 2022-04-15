@@ -104,7 +104,7 @@ public class RideSessionService implements IRideSessionService {
     }
 
     private Double useSubscriptionForPay(Subscription activeSubscription, Double currentPriceToPay) {
-        Double ableToPayByThisSubscription = activeSubscription.getBalance() * ( 1 + (activeSubscription.getDiscountPercentage() / 100 ));
+        Double ableToPayByThisSubscription = activeSubscription.getBalance() * (1 + (activeSubscription.getDiscountPercentage() / 100));
         if (currentPriceToPay > ableToPayByThisSubscription) {
             currentPriceToPay -= ableToPayByThisSubscription;
             activeSubscription.setBalance(0.0);

@@ -41,4 +41,3 @@ public class CityController {
         cityService.delete(id);
     }
 }
-

@@ -3,10 +3,11 @@ package com.sakovich.scooterrental.service;
 import com.sakovich.scooterrental.api.exception.OperationCancelledException;
 import com.sakovich.scooterrental.api.mapper.ICityMapper;
 import com.sakovich.scooterrental.api.service.ICityService;
+import com.sakovich.scooterrental.model.City;
 import com.sakovich.scooterrental.model.dto.CityDto;
 import com.sakovich.scooterrental.repository.ICityRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,12 +16,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/** Provides methods for transferring data from {@link ICityRepository} to CityController as well as processing.
+/**
+ * Provides methods for transferring data from {@link ICityRepository} to CityController as well as processing.
+ *
  * @author ArtemSakovich
  */
 @Service
 @Transactional
-@Slf4j
+@Log4j2
 @RequiredArgsConstructor
 public class CityService implements ICityService {
 
@@ -35,7 +38,7 @@ public class CityService implements ICityService {
 
     /**
      * Provides functionality to add a new city to the database. The essence of the method is to check the validity
-     * of the {@link CityDto} that came from the UI and, in case of a successful check, map it to {@link com.sakovich.scooterrental.model.City} tracked
+     * of the {@link CityDto} that came from the UI and, in case of a successful check, map it to {@link City} tracked
      * by Hibernate. Then we save it to the database using the method of {@link ICityRepository}
      *
      * @param dto an instance of {@link CityDto} come from UI
@@ -44,16 +47,15 @@ public class CityService implements ICityService {
     @Override
     public CityDto addCity(CityDto dto) {
         if (isDtoValid(dto)) {
-            com.sakovich.scooterrental.model.City entity = cityMapper.toEntity(dto);
-            return cityMapper.toDto(cityDao.save(entity));
+            cityDao.save(cityMapper.toEntity(dto));
         }
         return cityMapper.toDto(cityMapper.toEntity(dto));
     }
 
     /**
      * Provides functionality to get collection of {@link CityDto} as list to show it on the Ui. The essence of the
-     * method is to get collection of {@link com.sakovich.scooterrental.model.City} as list from {@link ICityRepository} turning it into a stream. Then map
-     * each to {@link com.sakovich.scooterrental.model.City} and reassemble it into collection of {@link CityDto} of entities for transferring to controller
+     * method is to get collection of {@link City} as list from {@link ICityRepository} turning it into a stream. Then map
+     * each to {@link City} and reassemble it into collection of {@link CityDto} of entities for transferring to controller
      *
      * @return collection of {@link CityDto} as list to show it on the UI
      */
@@ -66,7 +68,7 @@ public class CityService implements ICityService {
 
     /**
      * Provides functionality to get {@link CityDto} to show it on the Ui. The essence of the method is to get instance
-     * of {@link com.sakovich.scooterrental.model.City} from {@link ICityRepository} using private method to handle possible exception. Then map it to
+     * of {@link City} from {@link ICityRepository} using private method to handle possible exception. Then map it to
      * {@link CityDto} and transfer to controller for representing on the UI
      *
      * @param id an identification number of city we want to receive
@@ -79,7 +81,7 @@ public class CityService implements ICityService {
 
     /**
      * Provides functionality to update city in the database. The essence of the method is to check the validity
-     * of the {@link CityDto} that came from the UI and, in case of a successful get instance of {@link com.sakovich.scooterrental.model.City} using
+     * of the {@link CityDto} that came from the UI and, in case of a successful get instance of {@link City} using
      * private method to handle possible exception. Then set new name to updating city and save it to the database
      * using the method of {@link ICityRepository}
      *
@@ -89,7 +91,7 @@ public class CityService implements ICityService {
     @Override
     public CityDto update(CityDto dto) {
         if (isDtoValid(dto)) {
-            com.sakovich.scooterrental.model.City cityToUpdate = getCityByIdHandler(dto.getId());
+            City cityToUpdate = getCityByIdHandler(dto.getId());
             cityToUpdate.setName(dto.getName());
             cityDao.save(cityToUpdate);
         }
@@ -97,7 +99,7 @@ public class CityService implements ICityService {
     }
 
     /**
-     * Provides functionality to delete city from the database. The essence of the method is get to get {@link com.sakovich.scooterrental.model.City}
+     * Provides functionality to delete city from the database. The essence of the method is get to get {@link City}
      * by id using private method to handle possible exception and then pass it as parameter to {@link ICityRepository} delete method
      *
      * @param id an identification number of city we want to delete
@@ -109,14 +111,14 @@ public class CityService implements ICityService {
 
     /**
      * Provides functionality to handle possible {@link EntityNotFoundException}. The essence of the method is to check
-     * if come id is valid and return instance of {@link com.sakovich.scooterrental.model.City} by this id if it's true. Otherwise log error and throw
+     * if come id is valid and return instance of {@link City} by this id if it's true. Otherwise log error and throw
      * custom {@link OperationCancelledException} with the corresponding message
      *
      * @param id an identification number of city we want to get
-     * @return if city exists return instance of {@link com.sakovich.scooterrental.model.City}, otherwise log error and throw custom exception
+     * @return if city exists return instance of {@link City}, otherwise log error and throw custom exception
      */
-    private com.sakovich.scooterrental.model.City getCityByIdHandler(Long id) {
-        Optional<com.sakovich.scooterrental.model.City> optionalCity = cityDao.findById(id);
+    private City getCityByIdHandler(Long id) {
+        Optional<City> optionalCity = cityDao.findById(id);
         if (optionalCity.isPresent()) {
             return optionalCity.get();
         } else {
@@ -133,7 +135,7 @@ public class CityService implements ICityService {
      * @return if dto is valid return true, otherwise log error and throw custom exception
      */
     private boolean isDtoValid(CityDto dto) {
-        if (dto.getName() != null && dto.getId() != null) {
+        if (dto.getName() != null) {
             return true;
         } else {
             log.error("Error when trying to add or update city");

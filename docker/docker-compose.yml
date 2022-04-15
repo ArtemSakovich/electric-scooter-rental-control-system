@@ -9,11 +9,11 @@ services:
     depends_on:
       - db
     environment:
-      # Datasource configuration
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/electric_scooter_rental_control_system_db
-      - SPRING_DATASOURCE_USERNAME=artemsakovich
-      - SPRING_DATASOURCE_PASSWORD=adminartem
-      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+#      # Datasource configuration
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5433/electric_scooter_rental_control_system_db
+#      - SPRING_DATASOURCE_USERNAME=artemsakovich
+#      - SPRING_DATASOURCE_PASSWORD=adminartem
+#      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
       # Hibernate properties
       - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
@@ -28,9 +28,9 @@ services:
       # Liquibase properties
       - SPRING_LIQUIBASE_CHANGE_LOG=classpath:db/changelog/db.changelog-master.xml
     ports:
-      - "8080:8080"
+      - "8081:8081"
     volumes:
-      - "/home/user/Temp/logs:/logs"
+      - /Users/private/scooters/logs:/logs
 
   db:
     image: 'postgres'
@@ -48,4 +48,4 @@ services:
     image: cogniteev/echo
     command: echo 'Data Container for PostgreSQL'
     volumes:
-      - /opt/postgresdata/:/var/lib/postgresql/data
+      - /Users/private/scooters/data/postgres:/var/lib/postgresql/data
