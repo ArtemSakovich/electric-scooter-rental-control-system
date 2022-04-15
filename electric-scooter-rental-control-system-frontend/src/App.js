@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Link, Route, Switch} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-
+import 'react-app-polyfill/stable'
 import AuthService from "./service/auth.service";
 
 import Login from "./component/util/login.component";
