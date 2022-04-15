@@ -5,10 +5,6 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="create-tables" author="ArtemSakovich">
-        <preConditions onFail="CONTINUE">
-            <dbms type="postgresql"/>
-            <runningAs username="artemsakovich"/>
-        </preConditions>
 
         <createTable tableName="cities">
             <column name="id" type="BIGINT" autoIncrement="true">
